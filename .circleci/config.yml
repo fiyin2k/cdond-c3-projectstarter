@@ -214,7 +214,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl --insecure https://kvdb.io/Y2KNsbnjNygvrpLpYzaqxu/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl --insecure https://kvdb.io/8NVg9WiDi1kgcxRxSGjEKN/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
             fi 
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}    
