@@ -155,17 +155,17 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: python:3.10.5-alpine3.16
     steps:
       - checkout
-      - run: apk add --update tar gzip
+      - add_ssh_keys: 
+          fingerprints: ["ef:48:1c:be:10:fa:a4:d4:5c:ef:66:c9:3c:2c:4a:dc"]      
       - run: 
           name: Install dependences (Nodejs and NPM) and ansible
           command: |
             wget https://nodejs.org/dist/v13.8.0/node-v13.8.0-linux-x64.tar.xz
             apk add --update npm
-      - add_ssh_keys: 
-          fingerprints: ["ef:48:1c:be:10:fa:a4:d4:5c:ef:66:c9:3c:2c:4a:dc"]
+      - run: apk add --update tar gzip
       - attach_workspace:
           at: .
       - run: 
