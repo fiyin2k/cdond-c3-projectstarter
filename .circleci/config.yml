@@ -16,7 +16,25 @@ commands:
             echo "Destroying environment: << parameters.workflow_id >> "
             aws s3 rm s3://udapeoplefrontend<< parameters.workflow_id >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >> 
-            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>      
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >> 
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      workflow_id:
+        type: string     
+    steps:
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            SUCCESS=$(curl --insecure https://kvdb.io/8NVg9WiDi1kgcxRxSGjEKN/migration_<< parameters.workflow_id >>)
+            echo $SUCCESS
+            if(( $SUCCESS == 1 )); 
+            then
+              cd backend
+              # npm install
+              npm run migration:revert
+            fi     
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
