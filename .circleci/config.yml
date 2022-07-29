@@ -243,11 +243,11 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run:
-          name: Install tar gzip and curl
-          command:
-            apk add --update tar gzip
-      - run: apk add --update curl
+      # - run:
+      #     name: Install tar gzip and curl
+      #     command:
+      #       apk add --update tar gzip
+      # - run: apk add --update curl
       - run:
           name: Install AWS CLI dependencies
           command: |
