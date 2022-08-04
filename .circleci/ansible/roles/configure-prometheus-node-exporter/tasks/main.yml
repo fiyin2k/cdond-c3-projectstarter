@@ -25,6 +25,8 @@
 # #     daemon_reload: yes
 # #     name: node_exporter
 # #     enabled: yes
+
+# another var
 - name: "install node exporter."
   become: true
   shell: |
