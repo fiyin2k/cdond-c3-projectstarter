@@ -1,0 +1,3 @@
+GitHub URL: https://github.com/fiyin2k
+S3 URL: https://udapeople-139100e.s3.amazonaws.com/index.html
+CloudFront ARN Distribution: arn:aws:cloudfront::350809292578:distribution/E272WFCCDD9CYN
