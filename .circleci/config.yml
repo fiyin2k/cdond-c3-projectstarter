@@ -396,13 +396,13 @@ jobs:
   cleanup:
       docker:
         - image: amazon/aws-cli
+      parameters:
+        workflow_id:
+          type: string   
       steps:
         - checkout
         - run:
             name: Get old stack workflow id
-            parameters:
-              workflow_id:
-                type: string   
             command: |
               export OldWorkflowID=$(aws cloudformation \
                 list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
