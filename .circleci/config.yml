@@ -400,10 +400,10 @@ jobs:
       steps:
         - checkout
         - run:
-          name: Install dependencies (awscli)
-          command: |
-            apk --no-cache add py-pip
-            pip install awscli
+            name: Install dependencies (awscli)
+            command: |
+              apk --no-cache add py-pip
+              pip install awscli
         - run: apk add --update tar gzip
         - attach_workspace:
             at: ~/
