@@ -13,7 +13,7 @@ commands:
           name: Destroy environments ${CIRCLE_WORKFLOW_ID:0:7} 
           when: on_fail
           command: |
-            echo "Destroying environment: << parameters.workflow_id >>"
+            echo "OldWorkflowID: << parameters.workflow_id >>"
             echo "Stack names: udapeople-frontend-<<parameters.workflow_id>>  udapeople-backend-<<parameters.workflow_id>>"
             aws cloudformation delete-stack \
             --stack-name udapeople-backend-<<parameters.workflow_id>>
@@ -415,13 +415,13 @@ jobs:
             name: Get old stack workflow id and cleanup
             command: |
               echo OldWorkflowID: "${OldWorkflowID}"
-              echo InitialBucket: "${STACKS[@]}"
+              echo InitialBucket: "${BucketID}"
               echo CIRCLE_WORKFLOW_ID: "${CIRCLE_WORKFLOW_ID:0:7}"
 
               echo "------Delete the stacks that are not the current workflow id-----"
-              if [[ "${CurrentWorkflowID}" != "${OldWorkflowID}" ]]
+              if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
               then
-                aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                aws s3 rm "s3://${BucketID}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
               else
