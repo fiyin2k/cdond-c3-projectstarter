@@ -400,7 +400,7 @@ jobs:
       # parameters:
       #   workflow_id: 
       #     type: string
-      # steps:
+      steps:
         - checkout
         - run:
             name: Install dependencies (awscli)
