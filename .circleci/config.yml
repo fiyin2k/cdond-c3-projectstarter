@@ -401,9 +401,6 @@ jobs:
       # parameters:
       #   workflow_id: 
       #     type: string
-      parameters:
-        workflow_id:
-          type: string
       steps:
         - checkout
         # - run:
@@ -420,20 +417,17 @@ jobs:
               export OldWorkflowID=$(aws cloudformation \
                 list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                 --no-paginate --output text)
-              echo "OldWorkflowID: << parameters.workflow_id >>"
-              echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+              echo OldWorkflowID: "${OldWorkflowID}"
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                 --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
               echo Stack names: "${STACKS[@]}"
               if [[ "${STACKS[@]}" =~ "$OldWorkflowID" ]]
               then
-                aws cloudformation delete-stack \
-                --stack-name udapeople-backend-<<parameters.workflow_id>>
-                aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
-                aws cloudformation delete-stack \
-                --stack-name udapeople-frontend-<<parameters.workflow_id>>
+                aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
               else
-                echo "Stack names: udapeople-frontend-<<parameters.workflow_id>>  udapeople-backend-<<parameters.workflow_id>>"
+                echo "$OldWorkflowID==$CurrentWorkflowID => nothing needs to be done..."
               fi
         - destroy-environment:
             workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
