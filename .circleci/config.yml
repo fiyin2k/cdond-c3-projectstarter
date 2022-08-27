@@ -401,6 +401,9 @@ jobs:
       # parameters:
       #   workflow_id: 
       #     type: string
+      parameters:
+        workflow_id:
+          type: string
       steps:
         - checkout
         # - run:
